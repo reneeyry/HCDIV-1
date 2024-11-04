@@ -1,1 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Singapore 2-Hour Weather Forecast</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        h1 {
+            font-family: "Georgia", serif;
+            color: purple;
+        }
+        p {
+            font-family: "Courier New", monospace;
+            color: orange;
+            font-size: 20px;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 60%;
+            background-color: #f3e6ff; /* Light purple background */
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Singapore 2-Hour Weather Forecast</h1>
+    <p>Yang Ruiyun</p >
 
+    <table>
+        <thead>
+            <tr>
+                <th>Area</th>
+                <th>Forecast</th>
+            </tr>
+        </thead>
+        <tbody id="weather-data"></tbody>
+    </table>
+
+    <script>
+        async function fetchWeather() {
+            try {
+                const response = await fetch('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast');
+                const data = await response.json();
+                const forecasts = data.items[0].forecasts;
+
+                const tableBody = document.getElementById('weather-data');
+                tableBody.innerHTML = '';
+
+                forecasts.forEach(forecast => {
+                    const row = `<tr><td>${forecast.area}</td><td>${forecast.forecast}</td></tr>`;
+                    tableBody.innerHTML += row;
+                });
+            } catch (error) {
+                console.error("Failed to fetch weather data:", error);
+            }
+        }
+
+        fetchWeather();
+    </script>
+</body>
+</html>
